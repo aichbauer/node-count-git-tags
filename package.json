@@ -1,6 +1,6 @@
 {
   "name": "count-git-tags",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A tool to count the number of tags of a git repository",
   "main": "build.js",
   "scripts": {
