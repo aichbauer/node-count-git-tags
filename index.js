@@ -3,8 +3,17 @@ import isGit from 'is-git-repository';
 import { platform } from 'os';
 import makepath from 'path';
 import pathIsAbsolute from 'path-is-absolute';
+import shellescape from 'shell-escape';
 
 const cwd = process.cwd();
+
+// escape bad arguments
+var escapeShell = function(cmd) {
+  if(cmd !== undefined){
+    var arg = cmd.toString().split(" ");
+    return shellescape(arg);
+  }
+}
 
 const countGitTags = ({ path, local } = {}) => {
   let countOfTags = 0;
@@ -12,6 +21,9 @@ const countGitTags = ({ path, local } = {}) => {
   let thisPath = path || cwd;
   thisPath = pathIsAbsolute(thisPath) ? thisPath : makepath.join(cwd, thisPath);
   const thisLocal = local === undefined ? true : local;
+  
+  thisPath = escapeShell(thisPath);
+  thisLocal = escapeShell(thisLocal);
 
   if (!isGit(thisPath)) {
     return 0;
